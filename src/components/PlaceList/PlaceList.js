@@ -10,7 +10,7 @@ const placeList = props => {
       placeName={place.name}
       placeImage={place.image}
       onItemPressed={() => {
-        props.onItemDeleted(place.key);
+        props.onItemSelected(place.key);
       }}
     />
   ));
