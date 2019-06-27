@@ -1,44 +1,28 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import AddItem from './src/components/AddItem/AddItem';
-import ListItems from './src/components/ListItems/ListItems';
+import PlaceInput from './src/components/PlaceInput/PlaceInput';
+import PlaceList from './src/components/PlaceList/PlaceList';
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
   state = {
-    placeName: '',
     places: []
   };
 
-  placeNameChangedHandler = val => {
-    this.setState({ placeName: val });
-  };
-
-  placeSubmitHandler = () => {
-    if (this.state.placeName.trim() === '') {
-      return;
-    }
-
+  placeAddedHandler = placeName => {
     this.setState(prevState => {
       return {
-        places: prevState.places.concat(prevState.placeName),
-        placeName: ''
+        places: prevState.places.concat(placeName)
+      };
+    });
+  };
+
+  placeDeletedHandler = index => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.filter((place, i) => {
+          return i !== index;
+        })
       };
     });
   };
@@ -46,12 +30,11 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <AddItem
-          placeName={this.state.placeName}
-          placeNameChangedHandler={this.placeNameChangedHandler}
-          placeSubmitHandler={this.placeSubmitHandler}
+        <PlaceInput onPlaceAdded={this.placeAddedHandler} />
+        <PlaceList
+          places={this.state.places}
+          onItemDeleted={this.placeDeletedHandler}
         />
-        <ListItems places={this.state.places} />
       </View>
     );
   }
@@ -59,10 +42,10 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // like flex-grow
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flex: 1,
     padding: 26,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   }
 });
