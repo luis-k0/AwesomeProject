@@ -14,71 +14,40 @@ import {
 } from './src/store/actions/index';
 
 class App extends Component {
-  // state = {
-  //   places: [],
-  //   selectedPlace: null
+  // placeAddedHandler = placeName => {
+  //   this.props.onAddPlace(placeName);
   // };
 
-  placeAddedHandler = placeName => {
-    // alert('placeAddedHandler ' + placeName);
+  // placeDeletedHandler = () => {
+  //   this.props.onDeletePlace();
+  // };
 
-    this.props.onAddPlace(placeName);
-    // this.setState(prevState => {
-    //   return {
-    //     places: prevState.places.concat({
-    //       key: Math.random().toString(),
-    //       name: placeName,
-    //       image: {
-    //         uri:
-    //           'https://thumbs.dreamstime.com/b/joker-face-s-batman-movie-isolated-white-background-58693590.jpg'
-    //       }
-    //     })
-    //   };
-    // });
-  };
+  // modalClosedHandler = () => {
+  //   this.props.onDeselectPlace();
+  // };
 
-  placeDeletedHandler = () => {
-    this.props.onDeletePlace();
-    // this.setState(prevState => {
-    //   return {
-    //     places: prevState.places.filter(place => {
-    //       return place.key !== prevState.selectedPlace.key;
-    //     }),
-    //     selectedPlace: null
-    //   };
-    // });
-  };
-
-  modalClosedHandler = () => {
-    this.props.onDeselectPlace();
-    // this.setState({
-    //   selectedPlace: null
-    // });
-  };
-
-  placeSelectedHandler = key => {
-    this.props.onSelectPlace(key);
-    // this.setState(prevState => {
-    //   return {
-    //     selectedPlace: prevState.places.find(place => {
-    //       return place.key === key;
-    //     })
-    //   };
-    // });
-  };
+  // placeSelectedHandler = key => {
+  //   this.props.onSelectPlace(key);
+  // };
 
   render() {
     return (
       <View style={styles.container}>
         <PlaceDetail
           selectedPlace={this.props.selectedPlace}
-          onItemDeleted={this.placeDeletedHandler}
-          onModalClosed={this.modalClosedHandler}
+          onItemDeleted={this.props.onDeletePlace}
+          onModalClosed={this.props.onDeselectPlace}
         />
-        <PlaceInput onPlaceAdded={this.placeAddedHandler} />
+        <PlaceInput
+          onPlaceAdded={placeName => {
+            this.props.onAddPlace(placeName);
+          }}
+        />
         <PlaceList
           places={this.props.places}
-          onItemSelected={this.placeSelectedHandler}
+          onItemSelected={key => {
+            this.props.onSelectPlace(key);
+          }}
         />
       </View>
     );
