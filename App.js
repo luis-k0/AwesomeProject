@@ -14,9 +14,10 @@ import {
 } from './src/store/actions/index';
 
 class App extends Component {
-  // placeAddedHandler = placeName => {
-  //   this.props.onAddPlace(placeName);
-  // };
+  placeAddedHandler = placeName => {
+    console.log('placeAddedHandler');
+    this.props.onAddPlace(placeName);
+  };
 
   // placeDeletedHandler = () => {
   //   this.props.onDeletePlace();
@@ -39,9 +40,10 @@ class App extends Component {
           onModalClosed={this.props.onDeselectPlace}
         />
         <PlaceInput
-          onPlaceAdded={placeName => {
-            this.props.onAddPlace(placeName);
-          }}
+          // onPlaceAdded={placeName => {
+          //   this.props.onAddPlace(placeName);
+          // }}
+          onPlaceAdded={placename => this.placeAddedHandler(placename)}
         />
         <PlaceList
           places={this.props.places}
